@@ -1,1 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snap2Sheet — Image to Excel</title>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    *{box-sizing:border-box}
+    :root{--primary:#2563eb;--primary2:#1d4ed8;--text:#172033;--muted:#667085;--line:#e2e8f0;--soft:#f6f9ff}
+    body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#f4f8ff,#f8fbff);color:var(--text);min-height:100vh}
+    .wrap{max-width:1180px;margin:auto;padding:28px 18px 50px}
+    header{text-align:center;margin-bottom:26px}
+    .logo{font-size:36px;font-weight:850;letter-spacing:-1px;color:var(--primary)}
+    .tag{margin-top:6px;color:var(--muted);font-size:15px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 35px rgba(16,24,40,.07);padding:24px;margin-bottom:18px}
+    .drop{display:block;border:2px dashed #a9c4f5;border-radius:18px;background:#f8fbff;padding:50px 20px;text-align:center;cursor:pointer;transition:.2s ease}
+    .drop:hover,.drop.drag{border-color:var(--primary);background:#eef5ff;box-shadow:0 0 0 4px rgba(37,99,235,.08)}
+    .icon{font-size:46px;line-height:1;margin-bottom:12px}
+    .drop h2{margin:0 0 8px;font-size:26px}
+    .drop p{color:var(--muted);margin:6px 0}
+    .formats{font-size:13px}
+    .btn{border:0;border-radius:10px;padding:11px 17px;font-weight:750;cursor:pointer;font-size:14px}
+    .primary{background:var(--primary);color:#fff}.primary:hover{background:var(--primary2)}
+    .secondary{background:#edf3ff;color:var(--primary)}
+    .danger{background:#fff1f1;color:#c62828}
+    .btn:disabled{opacity:.55;cursor:not-allowed}
+    .hidden{display:none!important}
+    .status{display:none;margin-top:18px}
+    .bar{height:9px;background:#e9eef6;border-radius:99px;overflow:hidden}
+    .fill{height:100%;width:0;background:var(--primary);transition:.25s}
+    .status-text{margin-top:9px;color:var(--muted);font-size:14px}
+    .preview-image{display:none;max-width:360px;max-height:230px;margin:18px auto 0;border:1px solid var(--line);border-radius:12px;object-fit:contain;background:#fff}
+    .file-name{margin-top:12px;color:var(--primary);font-weight:700;word-break:break-word}
+    .toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+    .spacer{flex:1}
+    .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+    .tab{background:#f1f5f9;border:0;border-radius:9px;padding:9px 12px;cursor:pointer;color:#475467;font-weight:700}
+    .tab.active{background:#e8f0ff;color:var(--primary)}
+    .meta{color:#475467;font-size:14px;margin-bottom:12px;line-height:1.55}
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+    table{border-collapse:collapse;width:100%;min-width:680px}
+    th,td{border:1px solid var(--line);padding:0}
+    th{height:34px;background:#f5f7fa;color:#667085;font-size:12px}
+    td input{width:100%;border:0;outline:0;padding:10px 9px;font-size:14px;background:#fff}
+    td input:focus{background:#eef5ff;box-shadow:inset 0 0 0 2px var(--primary)}
+    .notice{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:13px 15px;color:#475467;font-size:13px;line-height:1.55}
+    .success{background:#ecfdf3;border-color:#b7ebcc;color:#176b3a}
+    .error{background:#fff1f2;border-color:#fecdd3;color:#9f1239}
+    code{background:#f2f4f7;padding:2px 5px;border-radius:5px}
+    @media(max-width:700px){.wrap{padding:18px 12px 35px}.card{padding:17px}.drop{padding:34px 14px}.drop h2{font-size:23px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">Snap2Sheet</div>
+    <div class="tag">Turn any information-containing image into editable Excel</div>
+  </header>
 
+  <section class="card">
+    <label id="dropZone" class="drop" for="fileInput">
+      <div class="icon">📄</div>
+      <h2>Drop any image here</h2>
+      <p>Tables • invoices • bills • statements • forms • calendars • lists • text</p>
+      <p>Grid lines are not required.</p>
+      <br>
+      <button id="chooseBtn" class="btn primary" type="button">Choose Image</button>
+      <input id="fileInput" class="hidden" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+      <div id="fileName" class="file-name"></div>
+      <img id="previewImage" class="preview-image" alt="Selected image preview">
+    </label>
+
+    <div id="status" class="status">
+      <div class="bar"><div id="fill" class="fill"></div></div>
+      <div id="statusText" class="status-text">Ready</div>
+    </div>
+  </section>
+
+  <section id="resultCard" class="card hidden">
+    <h3 style="margin-top:0">Editable spreadsheet</h3>
+    <div id="meta" class="meta"></div>
+    <div id="tabs" class="tabs"></div>
+    <div class="toolbar">
+      <button class="btn secondary" id="addRowBtn">+ Row</button>
+      <button class="btn secondary" id="addColBtn">+ Column</button>
+      <button class="btn secondary" id="copyBtn">Copy</button>
+      <span class="spacer"></span>
+      <button class="btn primary" id="downloadBtn">Download Real Excel (.xlsx)</button>
+    </div>
+    <div class="table-wrap"><table id="sheetTable"></table></div>
+  </section>
+
+  <section id="message" class="card notice hidden"></section>
+</div>
+
+<script>
+const state = { sheets: [], activeSheet: 0 };
+const els = {
+  drop: document.getElementById('dropZone'),
+  file: document.getElementById('fileInput'),
+  choose: document.getElementById('chooseBtn'),
+  name: document.getElementById('fileName'),
+  image: document.getElementById('previewImage'),
+  status: document.getElementById('status'),
+  fill: document.getElementById('fill'),
+  statusText: document.getElementById('statusText'),
+  result: document.getElementById('resultCard'),
+  meta: document.getElementById('meta'),
+  tabs: document.getElementById('tabs'),
+  table: document.getElementById('sheetTable'),
+  message: document.getElementById('message')
+};
+
+function setStatus(text, percent) {
+  els.status.style.display = 'block';
+  els.statusText.textContent = text;
+  els.fill.style.width = `${percent}%`;
+}
+
+function showMessage(text, type='') {
+  els.message.className = `card notice ${type}`;
+  els.message.textContent = text;
+  els.message.classList.remove('hidden');
+}
+
+function clearMessage() {
+  els.message.classList.add('hidden');
+}
+
+function validateFile(file) {
+  return file && ['image/png','image/jpeg','image/webp','image/gif'].includes(file.type);
+}
+
+function preview(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    els.image.src = reader.result;
+    els.image.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function handleFile(file) {
+  if (!file) return;
+  clearMessage();
+
+  if (!validateFile(file)) {
+    showMessage('Please upload a PNG, JPG/JPEG, WEBP or GIF image.', 'error');
+    return;
+  }
+
+  els.name.textContent = `Selected: ${file.name}`;
+  preview(file);
+  setStatus('Uploading image securely…', 18);
+
+  try {
+    const form = new FormData();
+    form.append('image', file);
+
+    setStatus('Vision AI is reading the image…', 42);
+
+    const response = await fetch('/api/extract', { method: 'POST', body: form });
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'The server could not analyze the image.');
+    }
+
+    setStatus('Building editable spreadsheet…', 82);
+    loadResult(data);
+    setStatus('Done — review the cells and download Excel.', 100);
+    showMessage('The image was analyzed and converted into editable spreadsheet data.', 'success');
+  } catch (error) {
+    console.error(error);
+    setStatus('Processing failed.', 0);
+    showMessage(error.message || 'Something went wrong.', 'error');
+  }
+}
+
+els.choose.addEventListener('click', e => {
+  e.preventDefault();
+  e.stopPropagation();
+  els.file.click();
+});
+
+els.file.addEventListener('change', e => handleFile(e.target.files[0]));
+
+['dragenter','dragover'].forEach(type => {
+  els.drop.addEventListener(type, e => {
+    e.preventDefault();
+    e.stopPropagation();
+    els.drop.classList.add('drag');
+  });
+});
+
+['dragleave','drop'].forEach(type => {
+  els.drop.addEventListener(type, e => {
+    e.preventDefault();
+    e.stopPropagation();
+    els.drop.classList.remove('drag');
+  });
+});
+
+els.drop.addEventListener('drop', e => {
+  handleFile(e.dataTransfer.files[0]);
+});
+
+function normalizeSheets(sheets) {
+  if (!Array.isArray(sheets) || !sheets.length) {
+    return [{ name: 'Sheet1', purpose: 'Extracted data', rows: [['No data found']] }];
+  }
+
+  return sheets.map((sheet, index) => {
+    const rows = Array.isArray(sheet.rows) ? sheet.rows : [];
+    const clean = rows.map(row =>
+      Array.isArray(row) ? row.map(v => v == null ? '' : String(v)) : [String(row ?? '')]
+    );
+    const cols = Math.max(1, ...clean.map(r => r.length));
+    const padded = clean.length ? clean.map(r => Array.from({length: cols}, (_, i) => r[i] ?? '')) : [['']];
+    return {
+      name: String(sheet.name || `Sheet${index + 1}`).slice(0, 31),
+      purpose: String(sheet.purpose || ''),
+      rows: padded
+    };
+  });
+}
+
+function loadResult(data) {
+  state.sheets = normalizeSheets(data.sheets);
+  state.activeSheet = 0;
+  els.meta.innerHTML =
+    `<strong>Document type:</strong> ${escapeHtml(data.document_type || 'document')} &nbsp;•&nbsp; ` +
+    `<strong>Sheets:</strong> ${state.sheets.length}` +
+    (data.summary ? `<br>${escapeHtml(data.summary)}` : '');
+
+  els.result.classList.remove('hidden');
+  renderTabs();
+  renderTable();
+}
+
+function renderTabs() {
+  els.tabs.innerHTML = '';
+  state.sheets.forEach((sheet, index) => {
+    const button = document.createElement('button');
+    button.className = `tab ${index === state.activeSheet ? 'active' : ''}`;
+    button.textContent = sheet.name;
+    button.addEventListener('click', () => {
+      state.activeSheet = index;
+      renderTabs();
+      renderTable();
+    });
+    els.tabs.appendChild(button);
+  });
+}
+
+function columnName(n) {
+  let s = '';
+  n++;
+  while (n) {
+    s = String.fromCharCode(65 + (n - 1) % 26) + s;
+    n = Math.floor((n - 1) / 26);
+  }
+  return s;
+}
+
+function renderTable() {
+  const sheet = state.sheets[state.activeSheet];
+  const table = els.table;
+  table.innerHTML = '';
+  const cols = Math.max(1, ...sheet.rows.map(r => r.length));
+
+  const thead = document.createElement('thead');
+  const header = document.createElement('tr');
+  const corner = document.createElement('th');
+  corner.textContent = '#';
+  header.appendChild(corner);
+
+  for (let c = 0; c < cols; c++) {
+    const th = document.createElement('th');
+    th.textContent = columnName(c);
+    header.appendChild(th);
+  }
+  thead.appendChild(header);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  sheet.rows.forEach((row, r) => {
+    const tr = document.createElement('tr');
+    const rn = document.createElement('th');
+    rn.textContent = r + 1;
+    tr.appendChild(rn);
+
+    for (let c = 0; c < cols; c++) {
+      const td = document.createElement('td');
+      const input = document.createElement('input');
+      input.value = row[c] ?? '';
+      input.addEventListener('input', () => {
+        sheet.rows[r][c] = input.value;
+      });
+      td.appendChild(input);
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+}
+
+document.getElementById('addRowBtn').addEventListener('click', () => {
+  const sheet = state.sheets[state.activeSheet];
+  const cols = Math.max(1, ...sheet.rows.map(r => r.length));
+  sheet.rows.push(Array(cols).fill(''));
+  renderTable();
+});
+
+document.getElementById('addColBtn').addEventListener('click', () => {
+  const sheet = state.sheets[state.activeSheet];
+  if (!sheet.rows.length) sheet.rows.push(['']);
+  sheet.rows.forEach(row => row.push(''));
+  renderTable();
+});
+
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const sheet = state.sheets[state.activeSheet];
+  await navigator.clipboard.writeText(sheet.rows.map(r => r.join('\\t')).join('\\n'));
+  showMessage('Current sheet copied to your clipboard.', 'success');
+});
+
+document.getElementById('downloadBtn').addEventListener('click', () => {
+  const wb = XLSX.utils.book_new();
+
+  state.sheets.forEach((sheet, index) => {
+    let name = sheet.name || `Sheet${index + 1}`;
+    if (wb.SheetNames.includes(name)) name = `${name.slice(0, 27)}_${index + 1}`;
+    const ws = XLSX.utils.aoa_to_sheet(sheet.rows);
+    XLSX.utils.book_append_sheet(wb, ws, name.slice(0, 31));
+  });
+
+  XLSX.writeFile(wb, 'Snap2Sheet.xlsx');
+});
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, ch => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+  }[ch]));
+}
+</script>
+</body>
+</html>
