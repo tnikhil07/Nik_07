@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nikhilji Thakor | Finance & Banking Portfolio</title>
+<style>
+:root{--navy:#0b1f3a;--blue:#1769aa;--gold:#c79a3b;--light:#f5f7fa;--text:#243447;--muted:#667085;--white:#fff}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:var(--light);line-height:1.6}
+nav{position:sticky;top:0;z-index:10;background:rgba(11,31,58,.96);padding:16px 7%;display:flex;justify-content:space-between;align-items:center;color:#fff}
+.logo{font-size:20px;font-weight:700}.navlinks a{color:#fff;text-decoration:none;margin-left:24px;font-size:14px}
+.hero{background:linear-gradient(135deg,var(--navy),#164b78);color:#fff;padding:95px 8% 85px;display:grid;grid-template-columns:1.5fr 1fr;gap:50px;align-items:center}
+.hero h1{font-size:54px;line-height:1.05;margin:0 0 18px}.hero h2{font-size:23px;font-weight:400;color:#dce8f3;margin:0 0 25px}.hero p{max-width:700px;color:#d5e1ec}
+.badge{display:inline-block;border:1px solid rgba(255,255,255,.35);padding:7px 13px;border-radius:30px;font-size:13px;margin:5px 5px 0 0}
+.profile{width:260px;height:260px;border-radius:50%;border:7px solid rgba(255,255,255,.2);background:#e9eef4;display:flex;align-items:center;justify-content:center;color:var(--navy);font-weight:700;font-size:22px;text-align:center;margin:auto}
+.btn{display:inline-block;background:var(--gold);color:#fff;padding:12px 20px;border-radius:7px;text-decoration:none;font-weight:700;margin-top:20px}
+section{padding:70px 8%;max-width:1250px;margin:auto} .section-title{font-size:32px;color:var(--navy);margin:0 0 35px}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:35px}.card{background:#fff;border-radius:14px;padding:28px;box-shadow:0 8px 30px rgba(11,31,58,.07);border:1px solid #e8edf2}
+.timeline{border-left:3px solid #d5e1ec;padding-left:25px}.timeline .card{margin-bottom:22px}.year{color:var(--blue);font-weight:700;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.project h3,.card h3{color:var(--navy);margin-top:0}.project .tag{font-size:12px;background:#edf5fb;color:var(--blue);padding:5px 9px;border-radius:15px;display:inline-block;margin:3px}
+.skills{display:flex;flex-wrap:wrap;gap:10px}.skill{background:#fff;padding:10px 15px;border-radius:20px;border:1px solid #dfe6ee;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.stat{background:var(--navy);color:#fff;border-radius:12px;padding:22px;text-align:center}.stat strong{display:block;font-size:28px;color:#e6c36a}
+footer{background:var(--navy);color:#d9e3ed;text-align:center;padding:35px 8%} footer strong{color:#fff}
+@media(max-width:800px){.hero,.about{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:42px}.navlinks{display:none}}
+
+.contact-card{padding:30px}
+.contact-role{font-size:17px!important;color:var(--text)!important}
+.contact-divider{height:1px;background:#dce4e8;margin:22px 0}
+.contact-row{display:grid;grid-template-columns:58px 1fr auto;gap:16px;align-items:center;padding:10px 0}
+.contact-icon{width:52px;height:52px;border-radius:9px;background:#1769aa;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800}
+.contact-info strong{display:block;color:var(--navy);font-size:14px}
+.contact-info a{color:#1769aa;text-decoration:none;font-size:14px}
+.contact-info a:hover{text-decoration:underline}
+.contact-actions{display:flex;gap:9px;align-items:center}
+.contact-actions button,.contact-actions a{border:1px solid #dfe6ee;background:#f8fafc;color:var(--navy);border-radius:7px;padding:10px 13px;font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;white-space:nowrap}
+.contact-actions .primary{background:#1769aa;color:#fff;border-color:#1769aa}
+@media(max-width:800px){.contact-row{grid-template-columns:52px 1fr}.contact-actions{grid-column:2;flex-wrap:wrap}}
+
+
+.resume-btn{border:0;background:#1769aa;color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 5px 16px rgba(23,105,170,.22)}
+.resume-btn:hover{background:#0e5b96}
+.resume-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(4,20,35,.82);padding:28px}
+.resume-modal.open{display:flex;align-items:center;justify-content:center}
+.resume-window{width:min(1100px,96vw);height:min(92vh,900px);background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35);position:relative;display:flex;flex-direction:column}
+.resume-window-header{height:52px;background:#0b3157;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-weight:800}
+.resume-close{border:0;background:transparent;color:#fff;font-size:26px;cursor:pointer;line-height:1}
+.resume-frame{border:0;width:100%;height:calc(100% - 52px);flex:1}
+@media(max-width:700px){.resume-modal{padding:8px}.resume-window{height:96vh;width:98vw}}
+
+
+.resume-actions{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 18px}
+.resume-btn{border:0;background:#1769aa;color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 5px 16px rgba(23,105,170,.22)}
+.resume-btn:hover{background:#0e5b96}
+.resume-download{background:#0b3157}
+.resume-download:hover{background:#082846}
+
+
+/* Intro video button + popup */
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:20px}
+.hero-actions .btn{margin-top:0}
+.video-btn{position:relative;display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.35);padding:12px 18px;border-radius:7px;font-size:13px;font-weight:800;cursor:pointer;backdrop-filter:blur(8px);transition:transform .25s ease,background .25s ease,box-shadow .25s ease}
+.video-btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.18);box-shadow:0 10px 25px rgba(0,0,0,.18)}
+.play-icon{font-size:12px;position:relative;z-index:2}
+.video-pulse{position:absolute;left:13px;width:10px;height:10px;border-radius:50%;background:#e6c36a;opacity:.75;animation:videoPulse 1.8s infinite}
+@keyframes videoPulse{0%{transform:scale(1);opacity:.75;box-shadow:0 0 0 0 rgba(230,195,106,.55)}70%{transform:scale(2.3);opacity:0;box-shadow:0 0 0 10px rgba(230,195,106,0)}100%{transform:scale(1);opacity:0}}
+.intro-modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(2,12,24,.78);backdrop-filter:blur(8px);padding:22px}
+.intro-modal.open{display:flex;align-items:center;justify-content:center;animation:modalFade .22s ease}
+.intro-window{width:min(760px,94vw);background:#081a2e;border:1px solid rgba(255,255,255,.16);border-radius:18px;overflow:hidden;box-shadow:0 25px 80px rgba(0,0,0,.45);transform:scale(.96);animation:videoPop .28s ease forwards}
+.intro-header{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;color:#fff;background:linear-gradient(90deg,#0b1f3a,#164b78);font-weight:800}
+.intro-close{border:0;background:rgba(255,255,255,.1);color:#fff;width:34px;height:34px;border-radius:50%;font-size:22px;cursor:pointer;transition:background .2s ease,transform .2s ease}
+.intro-close:hover{background:rgba(255,255,255,.2);transform:rotate(90deg)}
+.intro-video{display:block;width:100%;max-height:72vh;background:#000}
+.intro-note{color:#cbd8e5;font-size:12px;text-align:center;padding:9px 14px 12px;margin:0}
+@keyframes modalFade{from{opacity:0}to{opacity:1}}
+@keyframes videoPop{from{transform:scale(.94);opacity:.6}to{transform:scale(1);opacity:1}}
+@media(max-width:600px){.hero-actions{flex-direction:column;align-items:stretch}.hero-actions .btn,.video-btn{width:100%;justify-content:center}.intro-modal{padding:8px}.intro-window{width:98vw;border-radius:12px}}
+
+
+/* Portrait 9:16 introductory video */
+.intro-window{width:min(440px,94vw)}
+.intro-video{width:100%;aspect-ratio:9/16;height:auto;max-height:78vh;object-fit:contain;background:#000}
+@media(max-width:600px){.intro-window{width:min(94vw,420px)}.intro-video{max-height:76vh}}
+
+
+/* ===== Scroll Reveal Animations ===== */
+.reveal{
+  opacity:0;
+  transform:translateY(34px);
+  transition:opacity .75s ease,transform .75s cubic-bezier(.22,.61,.36,1);
+}
+.reveal.show{opacity:1;transform:translateY(0)}
+.reveal-card{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .6s ease,transform .6s cubic-bezier(.22,.61,.36,1);
+}
+.reveal-card.show{opacity:1;transform:translateY(0)}
+.hero-animate{
+  animation:heroIn .8s ease both;
+}
+.hero-photo-animate{
+  animation:photoIn .9s .1s ease both;
+}
+@keyframes heroIn{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes photoIn{
+  from{opacity:0;transform:scale(.92) translateY(18px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+@media(prefers-reduced-motion:reduce){
+  .reveal,.reveal-card,.hero-animate,.hero-photo-animate{
+    opacity:1!important;transform:none!important;animation:none!important;transition:none!important;
+  }
+}
+
+
+
+/* ===== PREMIUM VISUAL POLISH v3 ===== */
+html{scroll-behavior:smooth}
+body{background:#eef4f8!important;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-30;pointer-events:none;background:linear-gradient(120deg,#eef7fb 0%,#f8faff 45%,#edf8f6 100%)}
+body::after{content:"";position:fixed;inset:-15%;z-index:-29;pointer-events:none;background:radial-gradient(circle at 12% 18%,rgba(31,157,190,.16),transparent 23%),radial-gradient(circle at 88% 20%,rgba(89,105,226,.13),transparent 24%),radial-gradient(circle at 75% 82%,rgba(199,154,59,.11),transparent 21%),radial-gradient(circle at 22% 88%,rgba(23,105,170,.09),transparent 22%);filter:blur(18px);animation:ambientDrift 20s ease-in-out infinite alternate}
+.ambient-orb{position:fixed;z-index:-28;pointer-events:none;border-radius:50%;filter:blur(2px);opacity:.7}
+.ambient-orb.a{width:190px;height:190px;left:5%;top:35%;background:radial-gradient(circle,rgba(29,177,207,.13),transparent 70%);animation:orbA 17s ease-in-out infinite}
+.ambient-orb.b{width:230px;height:230px;right:4%;top:55%;background:radial-gradient(circle,rgba(91,96,220,.10),transparent 70%);animation:orbB 21s ease-in-out infinite}
+@keyframes ambientDrift{50%{transform:translate3%, -2% scale(1.04)}to{transform:translate(-2%,2%) scale(1.08)}}
+@keyframes orbA{50%{transform:translate(90px,-55px) scale(1.18)}to{transform:translate(-20px,35px)}}
+@keyframes orbB{50%{transform:translate(-80px,55px) scale(.88)}to{transform:translate(15px,-30px)}}
+nav{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 28px rgba(7,26,51,.14);border-bottom:1px solid rgba(255,255,255,.08)}
+.hero{position:relative;isolation:isolate;overflow:hidden;box-shadow:0 20px 55px rgba(11,31,58,.14)}
+.hero::before{content:"";position:absolute;width:520px;height:520px;right:-180px;top:-230px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 67%);animation:heroGlow 9s ease-in-out infinite alternate;pointer-events:none}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(230,195,106,.65),transparent);opacity:.7}
+@keyframes heroGlow{to{transform:translate(-80px,90px) scale(1.15);opacity:.65}}
+.profile{box-shadow:0 0 0 12px rgba(255,255,255,.045),0 24px 55px rgba(0,0,0,.20)}
+.btn,.resume-btn{box-shadow:0 9px 24px rgba(23,105,170,.18);transition:transform .25s ease,box-shadow .25s ease,filter .25s ease}
+.btn:hover,.resume-btn:hover{transform:translateY(-2px);box-shadow:0 13px 30px rgba(23,105,170,.25);filter:brightness(1.03)}
+section{position:relative}
+.section-title{position:relative;padding-left:17px}
+.section-title::before{content:"";position:absolute;left:0;top:8px;width:4px;height:28px;border-radius:8px;background:linear-gradient(#1769aa,#c79a3b)}
+.card,.stat,.skill{transition:transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s ease,border-color .3s ease}
+.card{background:rgba(255,255,255,.88);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.card:hover{transform:translateY(-6px);box-shadow:0 18px 42px rgba(11,31,58,.12);border-color:rgba(23,105,170,.20)}
+.skill{background:rgba(255,255,255,.82)}
+.skill:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(23,105,170,.12);border-color:#b9d2e5}
+.stat:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(11,31,58,.22)}
+.timeline{position:relative}
+footer{position:relative;overflow:hidden}
+footer::before{content:"";position:absolute;left:20%;right:20%;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(230,195,106,.55),transparent)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body::after,.ambient-orb,.hero::before{animation:none!important}.card,.stat,.skill,.btn,.resume-btn{transition:none!important}}
+
+
+/* ===== LEAVE A MESSAGE POPUP ===== */
+.leave-message-btn{
+  position:fixed;
+  right:24px;
+  bottom:24px;
+  z-index:1000;
+  border:0;
+  border-radius:999px;
+  padding:14px 20px;
+  font:600 14px/1.2 inherit;
+  color:#fff;
+  background:linear-gradient(135deg,#1769aa,#0b1f3a);
+  box-shadow:0 12px 30px rgba(11,31,58,.25);
+  cursor:pointer;
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.leave-message-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 16px 36px rgba(11,31,58,.32);
+}
+.leave-message-btn span{margin-right:7px}
+
+.message-overlay{
+  position:fixed;
+  inset:0;
+  z-index:1100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(7,20,38,.52);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .25s ease,visibility .25s ease;
+}
+.message-overlay.open{
+  opacity:1;
+  visibility:visible;
+}
+.message-popup{
+  width:min(520px,100%);
+  background:rgba(255,255,255,.97);
+  border:1px solid rgba(255,255,255,.75);
+  border-radius:22px;
+  padding:28px;
+  box-shadow:0 30px 80px rgba(7,20,38,.28);
+  transform:translateY(20px) scale(.97);
+  transition:transform .3s ease;
+}
+.message-overlay.open .message-popup{
+  transform:translateY(0) scale(1);
+}
+.message-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:20px;
+}
+.message-head h3{
+  margin:0 0 5px;
+  color:#0b1f3a;
+  font-size:24px;
+}
+.message-head p{
+  margin:0;
+  color:#667085;
+  font-size:14px;
+}
+.message-close{
+  width:36px;
+  height:36px;
+  border:0;
+  border-radius:50%;
+  background:#f1f5f9;
+  color:#243447;
+  font-size:22px;
+  cursor:pointer;
+}
+.message-form{display:grid;gap:14px}
+.message-form label{
+  display:grid;
+  gap:7px;
+  color:#243447;
+  font-size:13px;
+  font-weight:600;
+}
+.message-form input,
+.message-form textarea{
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid #d9e2ec;
+  border-radius:11px;
+  padding:12px 13px;
+  font:inherit;
+  color:#243447;
+  background:#fff;
+  outline:none;
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+.message-form input:focus,
+.message-form textarea:focus{
+  border-color:#1769aa;
+  box-shadow:0 0 0 3px rgba(23,105,170,.10);
+}
+.message-form textarea{
+  min-height:125px;
+  resize:vertical;
+}
+.message-submit{
+  border:0;
+  border-radius:11px;
+  padding:13px 18px;
+  color:#fff;
+  background:linear-gradient(135deg,#1769aa,#0b1f3a);
+  font:700 14px/1 inherit;
+  cursor:pointer;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.message-submit:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 22px rgba(23,105,170,.22);
+}
+.message-note{
+  margin:0;
+  color:#8a94a6;
+  font-size:11px;
+  line-height:1.5;
+}
+@media(max-width:600px){
+  .leave-message-btn{
+    right:16px;
+    bottom:16px;
+    padding:13px 17px;
+  }
+  .message-popup{
+    padding:22px;
+    border-radius:18px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .message-overlay,.message-popup,.leave-message-btn,.message-submit{
+    transition:none!important;
+  }
+}
+
+
+/* ===== PREMIUM PORTFOLIO UPGRADE ===== */
+.premium-section{max-width:1250px}
+.section-kicker{font-size:11px;letter-spacing:2.4px;font-weight:800;color:#1769aa;margin-bottom:8px}
+.section-kicker.light{color:#e6c36a}
+.snapshot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.snapshot-card{background:rgba(255,255,255,.86);border:1px solid #e3ebf2;border-radius:16px;padding:23px;min-height:145px;display:flex;flex-direction:column;justify-content:center;transition:.3s ease;box-shadow:0 8px 28px rgba(11,31,58,.06)}
+.snapshot-card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,31,58,.11);border-color:#b9d2e5}
+.snapshot-icon{font-size:25px;margin-bottom:13px}.snapshot-card strong{color:#0b1f3a;font-size:17px}.snapshot-card span:last-child{font-size:13px;color:#667085;margin-top:5px}
+.journey{position:relative;max-width:900px;margin:auto;padding:5px 0}
+.journey-line{position:absolute;left:24px;top:20px;bottom:20px;width:2px;background:linear-gradient(#1769aa,#c79a3b);opacity:.45}
+.journey-item{position:relative;display:grid;grid-template-columns:50px 1fr;gap:22px;margin:0 0 28px}
+.journey-dot{width:50px;height:50px;border-radius:50%;background:#0b1f3a;color:#e6c36a;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;z-index:1;box-shadow:0 0 0 7px rgba(23,105,170,.07)}
+.journey-item h3{margin:4px 0 5px;color:#0b1f3a}.journey-item p{margin:0;color:#667085;max-width:680px}.journey-item .year{font-size:11px;letter-spacing:1px}
+.learning-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.learning-card{background:#fff;border:1px solid #e4ebf1;border-radius:16px;padding:24px;box-shadow:0 8px 28px rgba(11,31,58,.06)}
+.learning-top{display:flex;align-items:center;gap:11px;font-size:17px;color:#0b1f3a}.learning-top span{font-size:23px}.learning-card p{font-size:13px;color:#667085;min-height:43px}
+.progress{height:7px;background:#e9eff4;border-radius:20px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,#1769aa,#c79a3b);border-radius:20px}
+.recruiter-section{max-width:1250px;margin:10px auto 70px;padding:45px 8%;border-radius:24px;background:linear-gradient(135deg,#0b1f3a,#164b78);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:35px;box-shadow:0 22px 55px rgba(11,31,58,.18);position:relative;overflow:hidden}
+.recruiter-section:after{content:"";position:absolute;width:360px;height:360px;right:-130px;top:-160px;border-radius:50%;background:radial-gradient(circle,rgba(230,195,106,.18),transparent 68%)}
+.recruiter-section h2{font-size:31px;line-height:1.15;margin:4px 0 12px;max-width:720px}.recruiter-section p{color:#d7e4ef;max-width:720px;margin:0}.recruiter-actions{display:flex;flex-wrap:wrap;gap:10px;position:relative;z-index:1;min-width:0}
+.outline-btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;text-decoration:none;font-weight:800;font-size:13px;cursor:pointer;backdrop-filter:blur(5px)}
+.outline-btn:hover{background:rgba(255,255,255,.16);transform:translateY(-2px)}
+.recruiter-actions .resume-btn{background:#e6c36a;color:#0b1f3a}
+@media(max-width:900px){.snapshot-grid{grid-template-columns:repeat(2,1fr)}.recruiter-section{flex-direction:column;align-items:flex-start}.recruiter-actions{min-width:0}}
+@media(max-width:650px){.snapshot-grid,.learning-grid{grid-template-columns:1fr}.journey-item{gap:15px}.recruiter-section{margin-left:8%;margin-right:8%;padding:32px 24px}.recruiter-section h2{font-size:25px}.recruiter-actions{width:100%}.recruiter-actions>*{flex:1}}
+
+
+/* ===== CERTIFICATIONS & ACHIEVEMENTS ===== */
+.certifications-section{max-width:1250px}
+.cert-intro{max-width:760px;color:#667085;font-size:15px;margin:-15px 0 30px}
+.cert-filters{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:28px}
+.cert-filter{border:1px solid #dfe6ee;background:#fff;color:#0b1f3a;border-radius:999px;padding:9px 15px;font-size:12px;font-weight:700;cursor:pointer;transition:.25s}
+.cert-filter:hover,.cert-filter.active{background:#0b1f3a;color:#fff;border-color:#0b1f3a;transform:translateY(-2px)}
+.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.cert-card{background:rgba(255,255,255,.9);border:1px solid #e3eaf0;border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(11,31,58,.07);transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.cert-card:hover{transform:translateY(-7px);box-shadow:0 18px 42px rgba(11,31,58,.13);border-color:rgba(23,105,170,.25)}
+.cert-preview{height:220px;background:linear-gradient(135deg,#eaf1f6,#f8fbfd);padding:15px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.cert-preview img{width:100%;height:100%;object-fit:contain;border-radius:7px;box-shadow:0 7px 20px rgba(11,31,58,.13);background:#fff;transition:transform .35s ease}
+.cert-card:hover .cert-preview img{transform:scale(1.025)}
+.cert-body{padding:20px}
+.cert-category{display:inline-block;color:#1769aa;background:#edf5fb;border-radius:20px;padding:5px 9px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:11px}
+.cert-body h3{font-size:19px;color:#0b1f3a;line-height:1.3;margin:0 0 8px}
+.cert-issuer{font-size:13px;color:#667085;line-height:1.5;margin:0 0 4px}
+.cert-date{font-size:12px;color:#8493a4;margin:0 0 17px}
+.cert-view{width:100%;border:0;background:linear-gradient(135deg,#1769aa,#0b1f3a);color:#fff;border-radius:8px;padding:11px 14px;font-size:12px;font-weight:800;cursor:pointer;box-shadow:0 7px 18px rgba(23,105,170,.16);transition:.25s}
+.cert-view:hover{transform:translateY(-2px);box-shadow:0 11px 24px rgba(23,105,170,.24)}
+.cert-modal{display:none;position:fixed;inset:0;z-index:3000;background:rgba(3,14,27,.78);backdrop-filter:blur(8px);padding:18px}
+.cert-modal.open{display:flex;align-items:center;justify-content:center}
+.cert-window{width:min(1100px,96vw);height:min(92vh,900px);background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 25px 80px rgba(0,0,0,.4);display:flex;flex-direction:column}
+.cert-window-head{height:54px;flex:none;background:linear-gradient(90deg,#0b1f3a,#164b78);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 15px;font-size:14px;font-weight:800}
+.cert-window-close{border:0;background:rgba(255,255,255,.12);color:#fff;width:34px;height:34px;border-radius:50%;font-size:22px;cursor:pointer}
+.cert-frame{width:100%;height:calc(100% - 54px);border:0;background:#eef3f7}
+@media(max-width:950px){.cert-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.cert-grid{grid-template-columns:1fr}.cert-preview{height:235px}.cert-window{width:98vw;height:94vh}}
+
+</style>
+
+<style>
+.experience-card{padding:30px}.experience-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:10px}.experience-head h3{margin:5px 0 0}.experience-meta{display:flex;flex-direction:column;align-items:flex-end;gap:7px;white-space:nowrap;color:#667085;font-size:12px;padding-top:2px}@media(max-width:700px){.experience-head{flex-direction:column;gap:8px}.experience-meta{align-items:flex-start;white-space:normal;gap:4px}.experience-card{padding:23px}}
+</style><style id="final-portfolio-polish">
+.experience-meta span{display:block}
+.recruiter-actions .resume-btn{min-width:150px}
+@media(max-width:700px){
+  .recruiter-actions{width:100%}
+  .recruiter-actions .resume-btn{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="ambient-orb a" aria-hidden="true"></div><div class="ambient-orb b" aria-hidden="true"></div>
+<nav><div class="logo">Thakor Nikhilji</div><div class="navlinks">
+<a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#certifications">Certificates</a><a href="#contact">Contact</a>
+</div></nav>
+
+<header class="hero">
+<div>
+<div class="badge">Integrated MBA</div><div class="badge">Finance + HR</div><div class="badge">Career Portfolio</div>
+<h1>Nikhilji Thakor</h1>
+<h2>Integrated MBA Student | Human Resources & Finance</h2>
+<p>I am an Integrated MBA student at Sankalchand Patel University specializing in Human Resources and Finance, with a strong academic background and practical exposure through internships and academic projects.</p>
+<div class="hero-actions">
+<a class="btn" href="#projects">Explore My Work ↓</a>
+<button class="video-btn" type="button" onclick="openIntroVideo()">
+<span class="video-pulse"></span><span class="play-icon">▶</span> Watch My Introduction
+</button>
+</div>
+</div>
+<div class="profile"><img src="profile-photo.png" alt="Nikhilji Thakor" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
+</header>
+
+<section id="about">
+<h2 class="section-title">About Me</h2>
+<div class="about">
+<div class="card"><h3>My Professional Focus</h3><p>I am developing a professional foundation across Human Resources, Finance and business operations. My HR background has strengthened my communication and people skills, while my Finance specialization is developing my analytical and accounting capabilities.</p><p>I enjoy learning new systems, working with structured processes and applying my academic knowledge to practical situations.</p></div>
+<div class="card"><h3>Career Objective</h3><p>To begin my professional career in a growth-oriented organization where I can apply my analytical, communication and problem-solving skills, continue learning and contribute to organizational success.</p></div>
+</div>
+</section>
+
+<section>
+<div class="stats"><div class="stat"><strong>2</strong>Specializations</div><div class="stat"><strong>2+</strong>Internship Experiences</div><div class="stat"><strong>3+</strong>Academic Projects</div><div class="stat"><strong>4+</strong>Core Tools</div></div>
+</section>
+
+
+<section id="snapshot" class="premium-section">
+  <div class="section-kicker">QUICK SNAPSHOT</div>
+  <h2 class="section-title">A quick look at my professional profile</h2>
+  <div class="snapshot-grid">
+    <div class="snapshot-card"><span class="snapshot-icon">🎓</span><strong>Integrated MBA</strong><span>Sankalchand Patel University</span></div>
+    <div class="snapshot-card"><span class="snapshot-icon">💼</span><strong>Finance + HR</strong><span>Dual specialization</span></div>
+    <div class="snapshot-card"><span class="snapshot-icon">🧾</span><strong>Accounting</strong><span>Tally Prime • BUSY • GST concepts</span></div>
+    <div class="snapshot-card"><span class="snapshot-icon">🧾</span><strong>Career Focus</strong><span>Accounting • Finance</span></div>
+  </div>
+</section>
+
+
+
+<section id="experience">
+<h2 class="section-title">Professional Experience</h2>
+<div class="timeline">
+<div class="card experience-card"><div class="experience-head"><div><div class="year">HR INTERNSHIP · EMCURE PHARMACEUTICALS</div><h3>HR Intern — Dabhala Plant, Visnagar</h3></div><div class="experience-meta"><span>📅 Apr 2025 – Jun 2025</span><span>📍 Visnagar, Gujarat</span></div></div><p>Worked on employee engagement and retention research, employee surveys, recruitment support, onboarding coordination, HRIS data work and analysis of absenteeism and turnover information.</p><p><strong>Key learning:</strong> HR operations, employee engagement, recruitment processes, documentation and workplace communication.</p></div>
+<div class="card experience-card"><div class="experience-head"><div><div class="year">SALES ASSOCIATE · JHEX CONSULTING LLP</div><h3>Sales Associate</h3></div><div class="experience-meta"><span>📅 Apr 2025 – Nov 2025</span><span>📍 Visnagar, Gujarat</span></div></div><p>Assisted customers with product inquiries and sales, promoted services and products, and enhanced sales skills through regular training.</p><p><strong>Key learning:</strong> Customer interaction, sales communication, product promotion and professional relationship building.</p></div>
+<div class="card experience-card"><div class="experience-head"><div><div class="year">ACCOUNTING INTERNSHIP</div><h3>Accounting Department Intern</h3></div><div class="experience-meta"><span>📅 Aug 2026 – Nov 2026</span><span>📍 Mahesana, Gujarat</span></div></div><p>Developing practical exposure to accounting operations, documentation, GST-related concepts, Tally Prime, BUSY and day-to-day financial processes.</p><p><strong>Key learning:</strong> Accounting entries, transaction processing, reconciliation concepts and finance-system workflows.</p></div>
+</div></section>
+
+<section id="projects">
+<h2 class="section-title">Projects</h2>
+<div class="grid">
+<div class="card project">
+<h3>Industry-Oriented Project – Banas Dairy</h3>
+<span class="tag">Industry Project</span>
+<span class="tag">Operations</span>
+<p>Gained practical exposure to dairy processing, supply chain management, quality control, and production operations.</p>
+</div>
+
+<div class="card project">
+<h3>MRP 1 Project – Non-Banking Financial Companies (NBFCs)</h3>
+<span class="tag">MRP 1</span>
+<span class="tag">Research</span>
+<p>Conducted research on NBFC growth, regulatory framework, and their contribution to financial inclusion.</p>
+</div>
+
+<div class="card project">
+<h3>MRP 2 Project – Customer Satisfaction Towards Green Banking Services</h3>
+<span class="tag">MRP 2</span>
+<span class="tag">Research</span>
+<p>Conducted survey-based research to evaluate customer satisfaction with green banking services and digital banking adoption.</p>
+</div>
+</div>
+</section>
+
+<section id="skills">
+<h2 class="section-title">Skills & Tools</h2>
+<div class="skills"><span class="skill">Problem-Solving</span><span class="skill">Time Management</span><span class="skill">Adaptability</span><span class="skill">Decision Making</span>
+<div class="skill">Accounting</div><div class="skill">MS Excel</div><div class="skill">Tally Prime</div><div class="skill">BUSY</div><div class="skill">JASP</div><div class="skill">Data Analysis</div><div class="skill">HR Operations</div><div class="skill">Communication</div>
+</div>
+</section>
+
+<section>
+<h2 class="section-title">Education</h2>
+<div class="card"><div class="year">SANKALCHAND PATEL UNIVERSITY · VISNAGAR</div><h3>Integrated MBA</h3><p><strong>Human Resources:</strong> completed specialization</p><p><strong>Finance:</strong> current specialization / advanced study</p><p>Relevant areas include accounting, financial derivatives, data analysis, strategic management and HR management.</p></div>
+</section>
+
+<section>
+<h2 class="section-title">What I Bring</h2>
+<div class="grid">
+<div class="card"><h3>Analytical Mindset</h3><p>Developing finance and data-analysis skills to understand numbers and support practical decisions.</p></div>
+<div class="card"><h3>People Skills</h3><p>HR specialization and internship experience developed communication, coordination and employee-facing skills.</p></div>
+<div class="card"><h3>Adaptability</h3><p>Comfortable learning new processes, working collaboratively and developing practical skills through academic and internship experiences.</p></div>
+</div>
+</section>
+
+
+
+
+
+<section id="certifications" class="certifications-section">
+  <h2 class="section-title">Certifications &amp; Achievements</h2>
+  <p class="cert-intro">A collection of certifications and learning achievements that showcase my continuous development in finance, accounting, banking, technology and professional skills.</p>
+  <div class="cert-filters">
+    <button class="cert-filter active" onclick="filterCertificates('all',this)">All</button>
+    <button class="cert-filter" onclick="filterCertificates('Finance & Accounting',this)">Finance &amp; Accounting</button>
+    <button class="cert-filter" onclick="filterCertificates('Finance & Banking',this)">Finance &amp; Banking</button>
+    <button class="cert-filter" onclick="filterCertificates('Accounting & Software',this)">Accounting &amp; Software</button>
+  </div>
+  <div class="cert-grid">
+    <article class="cert-card" data-cert-category="Finance & Accounting">
+      <div class="cert-preview">
+        <img src="certificates/microsoft-excel.jpg" alt="Microsoft Excel — Beginners to Advanced certificate preview" loading="lazy">
+      </div>
+      <div class="cert-body">
+        <span class="cert-category">Finance & Accounting</span>
+        <h3>Microsoft Excel — Beginners to Advanced</h3>
+        <p class="cert-issuer">My Live Support</p>
+        <p class="cert-date">January 2024</p>
+        <button class="cert-view" type="button" onclick="openCertificate('certificates/microsoft-excel.pdf','Microsoft Excel — Beginners to Advanced')">View Certificate</button>
+      </div>
+    </article>
+
+    <article class="cert-card" data-cert-category="Finance & Banking">
+      <div class="cert-preview">
+        <img src="certificates/finance-an-industrial-approach.jpg" alt="Finance — An Industrial Approach certificate preview" loading="lazy">
+      </div>
+      <div class="cert-body">
+        <span class="cert-category">Finance & Banking</span>
+        <h3>Finance — An Industrial Approach</h3>
+        <p class="cert-issuer">Sankalchand Patel University • L&T EduTech • LearnKonnect</p>
+        <p class="cert-date">Certificate of Completion</p>
+        <button class="cert-view" type="button" onclick="openCertificate('certificates/finance-an-industrial-approach.pdf','Finance — An Industrial Approach')">View Certificate</button>
+      </div>
+    </article>
+
+    <article class="cert-card" data-cert-category="Finance & Banking">
+      <div class="cert-preview">
+        <img src="certificates/merchant-banking.jpg" alt="Merchant Banking certificate preview" loading="lazy">
+      </div>
+      <div class="cert-body">
+        <span class="cert-category">Finance & Banking</span>
+        <h3>Merchant Banking</h3>
+        <p class="cert-issuer">National Institute of Securities Markets (NISM)</p>
+        <p class="cert-date">January 11, 2026</p>
+        <button class="cert-view" type="button" onclick="openCertificate('certificates/merchant-banking.pdf','Merchant Banking')">View Certificate</button>
+      </div>
+    </article>
+
+    <article class="cert-card" data-cert-category="Finance & Banking">
+      <div class="cert-preview">
+        <img src="certificates/national-financial-literacy-quiz-2026.jpg" alt="National Financial Literacy Quiz 2026 certificate preview" loading="lazy">
+      </div>
+      <div class="cert-body">
+        <span class="cert-category">Finance & Banking</span>
+        <h3>National Financial Literacy Quiz 2026</h3>
+        <p class="cert-issuer">NISM / SEBI</p>
+        <p class="cert-date">2026 • Online Round</p>
+        <button class="cert-view" type="button" onclick="openCertificate('certificates/national-financial-literacy-quiz-2026.pdf','National Financial Literacy Quiz 2026')">View Certificate</button>
+      </div>
+    </article>
+
+    <article class="cert-card" data-cert-category="Accounting & Software">
+      <div class="cert-preview">
+        <img src="certificates/tally-prime.jpg" alt="Tally Prime certificate preview" loading="lazy">
+      </div>
+      <div class="cert-body">
+        <span class="cert-category">Accounting & Software</span>
+        <h3>Tally Prime</h3>
+        <p class="cert-issuer">STP Computer Education</p>
+        <p class="cert-date">August 2024 • A Grade</p>
+        <button class="cert-view" type="button" onclick="openCertificate('certificates/tally-prime.pdf','Tally Prime')">View Certificate</button>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section id="recruiter" class="recruiter-section">
+  <div>
+    <div class="section-kicker light">OPEN TO OPPORTUNITIES</div>
+    <h2>Let's build something meaningful together.</h2>
+    <p>I'm exploring opportunities where I can apply my skills in Accounting, Finance, HR and related business roles while continuing to learn and grow.</p>
+  </div>
+  <div class="recruiter-actions">
+    <button class="resume-btn" onclick="openResume()">👁 View Resume</button>
+  </div>
+</section>
+
+<section id="contact">
+<h2 class="section-title">Let's Connect</h2>
+<div class="card contact-card">
+  <h3>Nikhilji Thakor</h3>
+  <p class="contact-role">Integrated MBA | Finance &amp; HR</p>
+  <p>Open to opportunities in accounting, finance, human resources and related entry-level roles.</p>
+  <div class="contact-divider"></div>
+  <div class="contact-row">
+    <div class="contact-icon">in</div>
+    <div class="contact-info"><strong>LinkedIn</strong><a href="https://linkedin.com/in/nikhilji-thakor0707" target="_blank" rel="noopener">linkedin.com/in/nikhilji-thakor0707 ↗</a></div>
+    <div class="contact-actions"><button onclick="copyText('https://linkedin.com/in/nikhilji-thakor0707',this)">📋 Copy Link</button><a class="primary" href="https://linkedin.com/in/nikhilji-thakor0707" target="_blank" rel="noopener">↗ Open LinkedIn</a></div>
+  </div>
+  <div class="contact-row">
+    <div class="contact-icon">✉</div>
+    <div class="contact-info"><strong>Email</strong><a href="mailto:thakornikhil07072005@gmail.com">thakornikhil07072005@gmail.com ↗</a></div>
+    <div class="contact-actions"><button onclick="copyText('thakornikhil07072005@gmail.com',this)">📋 Copy Email</button><a class="primary" href="mailto:thakornikhil07072005@gmail.com">✈ Send Email</a></div>
+  </div>
+
+  <div class="contact-row">
+    <div class="contact-icon">📄</div>
+    <div class="contact-info">
+      <strong>Resume</strong>
+      <a href="#" onclick="openResume(); return false;">Nikhilji Thakor — Resume.pdf ↓</a>
+    </div>
+    <div class="contact-actions">
+      <a class="primary" href="resume.pdf" download="Nikhilji Resume.pdf">⬇ Download Resume</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer><strong>Nikhilji Thakor</strong><br>Finance • Human Resources • Continuous Learning</footer>
+
+<script>
+function copyText(text,button){
+  navigator.clipboard.writeText(text).then(function(){
+    const old=button.innerHTML; button.innerHTML="✓ Copied";
+    setTimeout(function(){button.innerHTML=old;},1400);
+  }).catch(function(){
+    const a=document.createElement("textarea"); a.value=text; document.body.appendChild(a);
+    a.select(); document.execCommand("copy"); a.remove();
+    const old=button.innerHTML; button.innerHTML="✓ Copied";
+    setTimeout(function(){button.innerHTML=old;},1400);
+  });
+}
+</script>
+
+
+<div id="introVideoModal" class="intro-modal" onclick="closeIntroVideo(event)">
+  <div class="intro-window">
+    <div class="intro-header">
+      <span>🎬 A Quick Introduction</span>
+      <button class="intro-close" type="button" onclick="closeIntroVideo()" aria-label="Close video">×</button>
+    </div>
+    <video id="introVideo" class="intro-video" controls controlsList="nodownload" disablePictureInPicture playsinline preload="auto">
+      <source src="https://tnikhil07.github.io/Thakor-Nikhilji/intro-video.mp4?v=20260922" type="video/mp4">
+      <source src="https://cdn.jsdelivr.net/gh/tnikhil07/Thakor-Nikhilji@main/intro-video.mp4?v=20260922" type="video/mp4">
+      <source src="intro-video.mp4" type="video/mp4">
+      Your browser does not support video playback.
+    </video>
+    <p class="intro-note">A short introduction by Nikhilji Thakor</p>
+  </div>
+</div>
+
+<div id="resumeModal" class="resume-modal" onclick="closeResume(event)">
+  <div class="resume-window">
+    <div class="resume-window-header">
+      <span>Nikhilji Thakor — Resume</span>
+      <button class="resume-close" onclick="closeResume()" aria-label="Close">×</button>
+    </div>
+    <iframe id="resumeFrame" class="resume-frame" title="Nikhilji Thakor Resume"></iframe>
+  </div>
+</div>
+
+<script>
+function openResume() {
+  document.getElementById("resumeFrame").src = "resume.pdf";
+  document.getElementById("resumeModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+
+
+function closeResume(event) {
+  if (event && event.target && event.target.id !== "resumeModal") return;
+  document.getElementById("resumeModal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+
+function openIntroVideo() {
+  const modal = document.getElementById("introVideoModal");
+  const video = document.getElementById("introVideo");
+
+  modal.classList.add("open");
+  document.body.style.overflow = "hidden";
+
+  video.pause();
+  video.currentTime = 0;
+  video.load();
+
+  function startWhenReady(){
+    video.currentTime = 0;
+    video.play().catch(function(){});
+  }
+
+  if (video.readyState >= 1) {
+    startWhenReady();
+  } else {
+    video.addEventListener("loadedmetadata", startWhenReady, {once:true});
+  }
+}
+
+function closeIntroVideo(event) {
+  if (event && event.target && event.target.id !== "introVideoModal") return;
+  const modal = document.getElementById("introVideoModal");
+  const video = document.getElementById("introVideo");
+  video.pause();
+  video.currentTime = 0;
+  modal.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") { closeResume(); closeIntroVideo(); }
+});
+
+
+/* ===== Scroll-triggered animations ===== */
+(function(){
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const heroText = document.querySelector(".hero > div:first-child");
+  const heroPhoto = document.querySelector(".hero > div:last-child");
+  if (heroText) heroText.classList.add("hero-animate");
+  if (heroPhoto) heroPhoto.classList.add("hero-photo-animate");
+
+  document.querySelectorAll("body > section").forEach(function(section){
+    section.classList.add("reveal");
+  });
+
+  document.querySelectorAll(".card, .stat, .skill").forEach(function(el, i){
+    el.classList.add("reveal-card");
+    el.style.transitionDelay = (Math.min(i % 5, 4) * 80) + "ms";
+  });
+
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    document.querySelectorAll(".reveal,.reveal-card").forEach(function(el){
+      el.classList.add("show");
+    });
+    return;
+  }
+
+  const observer = new IntersectionObserver(function(entries, obs){
+    entries.forEach(function(entry){
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("show");
+      obs.unobserve(entry.target);
+    });
+  }, {threshold:0.12, rootMargin:"0px 0px -45px 0px"});
+
+  document.querySelectorAll(".reveal,.reveal-card").forEach(function(el){
+    observer.observe(el);
+  });
+})();
+
+</script>
+
+<!-- Leave a Message -->
+<button class="leave-message-btn" type="button" onclick="openMessagePopup()" aria-label="Leave a message">
+  <span>✉</span> Leave a Message
+</button>
+
+<div class="message-overlay" id="messageOverlay" onclick="closeMessagePopup(event)" aria-hidden="true">
+  <div class="message-popup" role="dialog" aria-modal="true" aria-labelledby="messageTitle" onclick="event.stopPropagation()">
+    <div class="message-head">
+      <div>
+        <h3 id="messageTitle">Leave a Message</h3>
+        <p>Have a question or want to connect? Send me a message.</p>
+      </div>
+      <button class="message-close" type="button" onclick="closeMessagePopup()" aria-label="Close">×</button>
+    </div>
+
+    <form class="message-form" id="leaveMessageForm" action="https://formspree.io/f/mzezrjwr" method="POST" onsubmit="submitLeaveMessage(event)">
+      <input type="hidden" name="_subject" value="New message from Nikhilji Portfolio">
+
+      <label>
+        Name
+        <input type="text" name="name" placeholder="Your name" required>
+      </label>
+
+      <label>
+        Email
+        <input type="email" name="email" placeholder="your@email.com" required>
+      </label>
+
+      <label>
+        Message
+        <textarea name="message" placeholder="Write your message here..." required></textarea>
+      </label>
+
+      <button class="message-submit" type="submit">Send Message →</button>
+      <p class="message-note">Your message will be sent securely through the contact form.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+
+/* ===== LEAVE A MESSAGE POPUP ===== */
+function openMessagePopup(){
+  const overlay = document.getElementById("messageOverlay");
+  if(!overlay) return;
+  overlay.classList.add("open");
+  overlay.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+  const firstInput = overlay.querySelector("input");
+  if(firstInput) setTimeout(() => firstInput.focus(), 150);
+}
+
+function closeMessagePopup(event){
+  if(event && event.target && event.target.id !== "messageOverlay") return;
+  const overlay = document.getElementById("messageOverlay");
+  if(!overlay) return;
+  overlay.classList.remove("open");
+  overlay.setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
+}
+
+async function submitLeaveMessage(event){
+  event.preventDefault();
+
+  const form = document.getElementById("leaveMessageForm");
+  const button = form.querySelector(".message-submit");
+  const originalText = button.textContent;
+
+  button.disabled = true;
+  button.textContent = "Sending...";
+
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { "Accept": "application/json" }
+    });
+
+    if (response.ok) {
+      button.textContent = "Message Sent ✓";
+
+      setTimeout(function(){
+        form.reset();
+        button.textContent = originalText;
+        button.disabled = false;
+        closeMessagePopup();
+      }, 1300);
+    } else {
+      button.textContent = "Try Again";
+      button.disabled = false;
+      alert("Sorry, your message could not be sent. Please try again.");
+    }
+  } catch (error) {
+    button.textContent = "Try Again";
+    button.disabled = false;
+    alert("Please check your internet connection and try again.");
+  }
+}
+
+document.addEventListener("keydown",function(event){
+  if(event.key === "Escape") closeMessagePopup();
+});
+
+</script>
+
+<div id="certificateModal" class="cert-modal" onclick="closeCertificate(event)">
+  <div class="cert-window">
+    <div class="cert-window-head">
+      <span id="certificateModalTitle">Certificate</span>
+      <button class="cert-window-close" type="button" onclick="closeCertificate()" aria-label="Close certificate">×</button>
+    </div>
+    <iframe id="certificateFrame" class="cert-frame" title="Certificate viewer"></iframe>
+  </div>
+</div>
+
+<script>
+function filterCertificates(category, button){
+  document.querySelectorAll(".cert-filter").forEach(function(btn){btn.classList.remove("active");});
+  button.classList.add("active");
+  document.querySelectorAll(".cert-card").forEach(function(card){
+    card.style.display=(category==="all"||card.dataset.certCategory===category)?"":"none";
+  });
+}
+function openCertificate(file,title){
+  document.getElementById("certificateModalTitle").textContent=title;
+  document.getElementById("certificateFrame").src=file;
+  document.getElementById("certificateModal").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function closeCertificate(event){
+  if(event&&event.target&&event.target.id!=="certificateModal")return;
+  document.getElementById("certificateModal").classList.remove("open");
+  document.getElementById("certificateFrame").src="";
+  document.body.style.overflow="";
+}
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeCertificate();});
+</script>
+
+</body>
+</html>
